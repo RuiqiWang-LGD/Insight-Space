@@ -1,370 +1,152 @@
-# Insight-Space
+<p align="center">
+  <img src="assets/brand/mark.svg" alt="Insight-Space logo" height="112">
+</p>
 
-像你一样判断空间。
+<h1 align="center">Insight-Space</h1>
 
-Insight-Space 是一个面向设计师的 AI Skill，用来做前期参考研究、真实案例筛选、单点专项参考、视觉线索整理和 Word 文档输出。
+<p align="center">
+  <strong>Find real precedents. Build informed design references.</strong><br>
+  <sub>An AI skill for spatial design and early-stage research.</sub>
+</p>
 
-它不是单纯帮设计师找图，而是把模糊的项目需求转成可检索、可判断、可交付的参考研究材料。它会先理解用户真实想解决的问题，判断适合的研究模式，再进行案例搜索、来源验证、参考价值分析，并通过固定模板输出 Word 文档、链接文件或视觉参考卡片。
+<p align="center"><strong>English</strong> | <a href="README_CN.md">简体中文</a></p>
 
-当前版本以 Codex 本地 Skill 环境为主要测试环境。Claude Code、Grok、小龙虾或其他 AI 平台可以下载参考，但需要根据各平台的文件读取、联网搜索、脚本执行、Word 输出和图片处理能力自行适配。
+<p align="center">
+  <img src="assets/brand/badge-1.svg" alt="type: AI Skill" height="22">
+  <img src="assets/brand/badge-2.svg" alt="platform: Codex" height="22">
+  <img src="assets/brand/badge-3.svg" alt="output: Word · Cards" height="22">
+  <img src="assets/brand/badge-4.svg" alt="focus: Verified sources" height="22">
+</p>
 
-## Quickstart
+<p align="center">
+  Turn project questions into case searches, source checks and design analysis.<br>
+  Understand what to borrow, where it fits and what to consider.
+</p>
 
-在 Codex 中使用时，可以这样开始：
+<p align="center"><a href="#quick-start"><strong>Quick Start</strong></a> · <a href="#how-it-works"><strong>How It Works</strong></a> · <a href="#installation"><strong>Installation</strong></a> · <a href="#limitations"><strong>Limitations</strong></a></p>
 
-```text
-调用IS，帮我找几个办公空间的精品案例，做深度研究，要求偏年轻化一点，个性化有特点。
-```
+---
 
-也可以更轻量：
+## From design questions to useful references
 
-```text
-调用IS，浅度模式，快速找几个公园构筑物参考。
-```
+| Real precedents | Design judgment | Research outputs |
+| --- | --- | --- |
+| Search relevant cases and check sources | Assess ideas, context and constraints | Organize reports, links and visual cards |
+| Questions → Cases | Cases → Insights | Insights → References |
 
-或者只看视觉方向：
+---
 
-```text
-调用IS，视觉搜索模式，找一点面包店视觉参考。
-```
+<a id="quick-start"></a>
 
-如果已经明确只关注一个点，可以使用专项模式：
+## Quick Start
 
-```text
-调用IS，专项模式，精神堡垒，重点看传播性和记忆点。
-```
+Describe your project, the question to explore and the references you need:
 
-Insight-Space 会先判断这次更适合深度、中度、浅度、视觉搜索还是专项模式，并建议第一轮输出数量，避免一开始生成大量跑偏内容。
+~~~text
+Use Insight-Space to research distinctive workplace projects and explain which ideas are worth adapting.
+~~~
+
+Other starting points:
+
+~~~text
+Use Insight-Space in shallow mode to compare park pavilion references.
+Use Insight-Space in visual search mode to explore bakery materials and atmosphere.
+Use Insight-Space in expert mode to study an entrance landmark, focusing on recognition and shareability.
+~~~
+
+The skill recommends a mode and initial sample size before expanding. You can invoke it with $insight-space, or the established Chinese shortcuts described in the [Chinese guide](README_CN.md).
+
+<a id="how-it-works"></a>
 
 ## How It Works
 
-Insight-Space 的第一步不是直接搜索，而是先像设计搭档一样理解需求。
+Insight-Space starts with the design problem. It distinguishes full case research, fast direction finding, visual exploration and focused specialist questions.
 
-它会判断：
+1. Understand the project, audience and question.
+2. Choose a mode and initial sample size.
+3. Route by discipline and source; develop Chinese and English search terms.
+4. Build a candidate pool from suitable sources.
+5. Verify selected links and project information.
+6. Assess relevance, transferable ideas, conditions and limits.
+7. Produce the agreed reports, links or visual cards.
 
-- 用户到底是要完整案例研究，还是只想先看方向。
+Cost, buildability, maintenance, operation and user behavior are considered where evidence supports them.
 
-- 这个需求更适合深度、中度、浅度、视觉搜索还是专项模式。
+### Five output modes
 
-- 第一轮应该先做几个样本，才能既省 token 又方便校准方向。
-
-- 参考案例是否真的和项目有关，而不是只看起来好看。
-
-- 哪些做法能借鉴，哪些地方不能照搬。
-
-- 成本、施工、维护、运营和使用行为上有没有风险。
-
-- 如果是专项问题，应该先收窄到哪个单点突破口。
-
-核心工作流：
-
-1. 理解用户需求
-
-1. 判断输出模式
-
-1. 判断专业方向和搜索来源
-
-1. 生成中英文搜索关键词
-
-1. 优先搜索高质量来源
-
-1. 建立候选池
-
-1. 验证最终来源链接
-
-1. 判断参考价值和风险
-
-1. 输出 Word 文档、链接文件或视觉卡片
-
-### 输出模式
-
-| 模式 | 主要用途 | 默认输出 |
+| Mode | Main purpose | Default output |
 | --- | --- | --- |
-| **深度模式** | 精品案例、系统研究、完整分析 | **1份 Word（3–5个案例）＋链接.txt＋5张项目参考卡片** |
-| **中度模式** | 有判断、有比较，但比深度精简 | **1份 Word（5–8个案例）＋链接.txt＋5张项目参考卡片** |
-| **浅度模式** | 快速看项目、判断方向 | **1份 Word（8个案例，每个案例一页）＋链接.txt**，默认没有卡片 |
-| **视觉搜索模式** | 主要看形式、材料、氛围等视觉灵感 | **3–4张卡片＋链接.txt**，默认没有 Word |
-| **专项模式** | 围绕一个具体设计点寻找参考 | **1份专项 Word＋链接.txt＋8张独立灵感卡片**；Word案例数量按研究重点先确认 |
+| Deep | Selected precedents and developed analysis | One Word report with 3–5 cases, links and 5 project reference cards |
+| Medium | Comparison and judgment in a shorter format | One Word report with 5–8 cases, links and 5 project reference cards |
+| Shallow | Fast direction finding | One Word report with 8 cases, one page per case, plus links; no cards by default |
+| Visual search | Form, materials, atmosphere and visual clues | 3–4 cards plus links; no Word report by default |
+| Expert | One defined design question | One focused Word report, links and 8 independent inspiration cards; agree the report case count for the question |
 
-**两类卡片的区别：**
+Explicit counts and output choices take priority. A smaller initial sample may calibrate direction. Expert tasks can omit cards when requested.
 
-- **深度／中度的卡片**：来自同一轮筛选中，差一点进入 Word、但仍有参考价值的候选项目。文件夹叫 `项目参考卡片`。
-- **专项模式的卡片**：单独搜索，用来发散思路，不要求都有完整真实项目介绍，且不能与 Word 案例重复。文件夹叫 `更多单点可能性`。
+Deep/medium project reference cards come from relevant candidates that did not make the report. Expert additional possibilities are searched independently, do not duplicate report cases and may be visual directions without a complete project account. Existing Chinese output-folder labels are retained.
 
-以上是默认配置，**用户明确指定的数量和输出组合优先**。第一轮可先按确认的较小数量校准方向；专项模式如明确不需要卡片，仍保留 Word 和链接文件。
+<a id="installation"></a>
 
-## Download From GitHub
+## Installation
 
-建议直接在 Codex 对话框输入解压后的文件夹路径，让 Codex 帮助确认安装位置并完成安装。
+1. Download the complete repository with **Code → Download ZIP** and extract it.
+2. Ask Codex to inspect the folder, identify your existing skills location and install the complete package.
+3. For manual installation, copy the entire folder containing SKILL.md to that location as **insight-space**.
+4. Keep references, templates, scripts and other folders together.
+5. Restart Codex or open a new chat if needed, then test with $insight-space.
 
-1. 打开本仓库页面。
-
-1. 点击右上角 `Code`。
-
-1. 选择 `Download ZIP`。
-
-1. 解压后得到完整的 Insight-Space Skill 文件夹。
-
-1. 把解压出来的 Skill 文件夹放到本机 Codex 的 skills 目录。
-
-1. 重启 Codex 或新开线程。
-
-## Manual Install For Codex
-
-如果 Codex 支持本地 Skills，可以将整个 Skill 文件夹复制到本机 Codex skills 目录。
-
-可以使用中文外层文件夹保存，但建议 Skill 本体文件夹使用稳定英文名，例如：
-
-```text
-insight-space
-```
-
-复制后，重启 Codex 或新开一个线程，再尝试：
-
-```text
-调用IS，帮我找一点商业街区入口装置参考。
-```
-
-## Codex App
-
-如果使用的是 Codex App：
-
-1. 下载并解压本仓库。
-
-1. 将 Skill 文件夹放入 Codex 可识别的 skills 目录。
-
-1. 重新打开 Codex 或新建线程。
-
-1. 用“调用IS”或“使用 Insight-Space”开头测试触发。
-
-## Output Modes
-
-### Deep Mode
-
-适合用户需要精品案例、系统研究、汇报级分析、成本难度和不能照搬点。
-
-第一轮建议先做 3-5 个精品案例，方向确认后可扩展到 4-6 个。
-
-默认输出：
-
-- `深度模式_[用户需求].docx`
-
-- `链接.txt`
-
-- `项目参考卡片`
-
-深度模式的项目参考卡片来自同一轮候选池，是差一点入选 Word 文档的补充参考。
-
-### Medium Mode
-
-适合用户需要若干案例和设计判断，但不需要完整深度档案。
-
-第一轮建议先做 4-6 个案例，方向确认后可扩展到 5-8 个。
-
-默认输出：
-
-- `中度模式_[用户需求].docx`
-
-- `链接.txt`
-
-- `项目参考卡片`
-
-中度模式的项目参考卡片同样来自候选池，用来保留有价值但未进入 Word 文档的参考方向。
-
-### Shallow Mode
-
-适合用户说“先看看”“快速找几个”“没方向”“先找灵感”。
-
-第一轮建议先做 5-8 个方向或项目。
-
-默认输出：
-
-- `浅度模式_[用户需求].docx`
-
-- `链接.txt`
-
-浅度模式默认不输出卡片，重点是快速看方向。
-
-### Visual Search Mode
-
-适合用户只想看图片、形式、材料、氛围、家具、灯光、小构筑物等视觉方向。
-
-第一轮建议先做 3-4 张卡片，确认视觉方向后再扩展。
-
-默认输出：
-
-- 视觉卡片 PNG
-
-- `链接.txt`
-
-### Expert Mode / 专项模式
-
-适合用户已经明确关注某一个具体点，例如柜体、庭院灯、菜单版式、消防登高面、精神堡垒、铺装、坡道、座椅、导视、产品外观等。
-
-专项模式不是大而全的项目研究，而是围绕一个单点判断参考价值和发散可能性。
-
-默认输出：
-
-- `专项模式_[用户需求].docx`
-
-- `链接.txt`
-
-- `更多单点可能性` 文件夹，默认 8 张卡片
-
-专项模式 Word 每个案例内会保留“原网址 / 延伸查看”，方便直接打开来源继续查看。专项模式正常版优先控制在约 15 分钟内完成，复杂任务会先说明原因再扩展搜索。
+Use the skills directory already configured on your machine; avoid duplicate installations. Codex local Skills are the main tested environment. Other agent tools need adaptation to their file access, web research, scripting, Word output and image-processing capabilities.
 
 ## Professional Source Routing
 
-V2.0 增加“先判断专业，再判断去哪里搜”的专业分流规则。
-
-| 专业方向 | 默认搜索优先级 |
+| Discipline | Typical sources or treatment |
 | --- | --- |
-| 环境设计 | mooool / gooood / ArchDaily / ArchDaily CN / 建筑学院 / YinjiSPACE / Pinterest 视觉线索 |
-| 建筑学 | ArchDaily / ArchDaily CN / 建筑学院 / 事务所官网 / 奖项网站 |
-| 公共艺术 | 艺术家官网 / 机构官网 / 公共艺术平台 / Behance / Pinterest 线索 |
-| 雕塑 | Pinterest 视觉线索 / 艺术家官网 / 画廊或机构页 / 公共艺术项目页 |
-| 视觉传达 | Behance only 默认 |
-| 产品设计 | Behance / 设计奖项 / 品牌官网 / Pinterest 视觉线索 |
-| 工艺美术 | Behance / 艺术家或工坊官网 / 展览机构 / 博物馆 / 材料工艺平台 |
-| 数字媒体艺术 | Behance / 艺术家官网 / 展览机构 / 媒体艺术平台，仅处理可截图判断内容 |
+| Environmental / spatial design | mooool, gooood, ArchDaily, architecture platforms, YinjiSPACE; Pinterest for visual clues |
+| Architecture | Publications, practice websites and award sources |
+| Public art | Artist/institution websites and public-art platforms; Behance/Pinterest for leads |
+| Sculpture | Artist, gallery and institution pages; visual platforms for leads |
+| Visual communication | Behance-only default |
+| Product design | Behance, design awards, brand websites; Pinterest for clues |
+| Craft | Artist/workshop websites, exhibitions, museums and craft platforms |
+| Digital media art | Work assessable through static images; artist, institution and media-art sources |
 
-动画和摄影暂不作为 V2.0 核心适配专业。
+Animation and photography are not core V2.0 disciplines. UI/industrial-product questions outside spatial scale use a constrained specialist task when appropriate; flat graphic/brand references use the relevant portfolio route. Refer to the skill's detailed source-routing rules for platform-specific requirements.
 
-## Example Prompts
+## Output Location
 
-```text
-调用IS，帮我找几个景观塔类似案例。
-调用IS，找一点咖啡店商业空间参考。
-调用IS，浅度模式，快速找几个公园构筑物参考。
-调用IS，视觉搜索模式，找一些面包店视觉参考。
-调用IS，客户想要高级感，但预算比较紧，空间是社区商业休息区。
-调用IS，专项模式，帮我找一些咖啡品牌菜单版式参考，重点看信息层级和高级感。
-```
+Where local access allows, outputs go to an **Insight-Space输出** folder on the actual Desktop. Each task gets a numbered folder. Within it, keep the requested Word report, cards and source-links file together; routine delivery omits intermediate-material folders.
 
-## Default Output Location
+Existing filenames and folder labels may remain Chinese to match the current templates. This English documentation does not rename the functional output templates.
 
-如果本地环境允许，结果默认输出到桌面：
+## Package and Automation
 
-```text
-Insight-Space输出
-```
+| Item | Purpose |
+| --- | --- |
+| [SKILL.md](SKILL.md) | Entry point and core research rules |
+| [agents/](agents/) and [assets/brand/](assets/brand/) | Skill display information and logo assets |
+| [references/](references/) | Source verification, evaluation, output, card and platform rules |
+| [assets/templates/](assets/templates/) | Approved Word and visual-card templates |
+| [scripts/](scripts/) | Repeatable Word/card generation |
+| [tests/](tests/) and [examples/](examples/) | Acceptance material and example inputs |
+| [docs/](docs/) | Development and maintenance documents |
 
-每次任务新建一个编号文件夹，例如：
+The package includes render_deep_report.ps1, render_medium_report.ps1, render_shallow_report.ps1, render_expert_report.ps1 and render_project_card.ps1 in scripts/. They handle formatting and file generation; research, source verification, selection and judgment remain part of the research workflow.
 
-```text
-01_中度模式_商业街区入口装置
-02_视觉搜索_展陈材料氛围参考
-03_深度模式_景观塔系统研究
-04_专项模式_精神堡垒
-```
+## Status and Maintenance
 
-单个任务文件夹内部保持扁平，默认只放 Word、卡片和 `链接.txt`，不输出过程素材文件夹。
+Package **V2.0** provides five modes, fixed Word/card templates, output scripts, source routing and verification, layered sampling, image-download fallback, initial guidance and duplicate-search exclusion.
 
-## What's Inside
+Update SKILL.md for workflow changes and references/ for detailed rules. Check template changes against the corresponding scripts and run relevant tests for important functional changes. This visual/documentation update preserves those functional resources and does not claim a new version.
 
-```text
-insight-space/
-├─ SKILL.md
-├─ agents/
-├─ assets/
-│  └─ templates/
-├─ references/
-├─ scripts/
-├─ tests/
-├─ examples/
-├─ docs/
-```
+<a id="limitations"></a>
 
-主要内容：
+## Limitations
 
-- `SKILL.md`：Skill 主入口和核心规则
-
-- `agents/openai.yaml`：Skill 展示信息
-
-- `references`：来源验证、评估标准、输出规则、卡片规则、平台记忆规则
-
-- `assets/templates`：深度、中度、浅度、专项 Word 模板和视觉卡片模板
-
-- `scripts`：Word 和卡片自动化脚本
-
-- `tests`：测试提示和验收规则
-
-- `examples`：自动化脚本示例输入
-
-- `docs`：开发计划和维护资料
-
-## Automation
-
-当前包含五个主要自动化脚本：
-
-- `scripts/render_deep_report.ps1`
-
-- `scripts/render_medium_report.ps1`
-
-- `scripts/render_shallow_report.ps1`
-
-- `scripts/render_expert_report.ps1`
-
-- `scripts/render_project_card.ps1`
-
-这些脚本只负责稳定排版和生成文件，不负责联网搜索、案例判断或来源核验。搜索、筛选和判断仍由 Insight-Space 的研究流程完成。
-
-## Current Status
-
-当前版本为 V2.0。
-
-已经完成：
-
-- 深度 / 中度 / 浅度 / 视觉搜索 / 专项模式五种模式
-
-- Word 模板固定
-
-- 视觉卡片模板固定
-
-- 输出自动化脚本
-
-- 来源验证规则
-
-- 专业分流搜索规则
-
-- 分层抽样搜索规则
-
-- 图片下载失败降级规则
-
-- 前期对话引导规则
-
-- 专项模式 Word 原网址写入规则
-
-- 重复搜索排除规则
-
-## Updating
-
-- 修改主流程时，更新 `SKILL.md`。
-
-- 修改搜索、来源、评估、输出、卡片等细则时，更新 `references`。
-
-- 修改 Word 模板后，同步检查对应自动化脚本。
-
-- 修改卡片模板前，需要先确认新模板。
-
-- 每次重要修改后，更新并运行 `tests`。
-
-## Notes
-
-Insight-Space 的价值不在于找到多少张图，而在于它能不能先判断这些参考对当前项目是否真的有用，并把可借鉴的部分整理成设计师能继续推进的前期研究材料。
-
-它不替代消防、结构、无障碍、造价、施工图等专业审查。视觉线索不等于正式项目来源，正式引用前仍建议回到原网站核验。
-
-## Version
-
-当前说明对应：
-
-- Skill 包：`insight-space`
-
-- 版本：`V2.0`
-
-- 日期：2026-06-22
+Insight-Space supports early design research. It does not replace fire, structural, accessibility, cost or construction-document review. A visual clue is not automatically a verified project source; return to the original before formal citation. Distinguish source-supported information from judgment and possible directions.
 
 ## About
 
-一个用于空间设计研究、参考价值评估和项目前期洞察的 AI Skill。An AI skill for spatial design research, reference evaluation, and early-stage project insight.
+An AI skill for spatial design research, reference evaluation and early-stage project insight.
+
+[简体中文 documentation](README_CN.md) · [Map2Model](https://github.com/RuiqiWang-LGD/Map2Model) · [TalkTrack](https://github.com/RuiqiWang-LGD/TalkTrack--)
